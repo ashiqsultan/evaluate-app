@@ -1,0 +1,27 @@
+import db from '../../db';
+import { request } from '../../db/schema';
+
+type NewRequest = typeof request.$inferInsert;
+
+// Create a new request
+const createRequest = async (data: NewRequest): Promise<NewRequest> => {
+  try {
+    const { verb, url, headers, body } = data;
+    const newRequest = await db
+      .insert(request)
+      .values({
+        verb,
+        url,
+        headers,
+        body,
+      })
+      .returning();
+    console.log('newRequest');
+    console.log(newRequest);
+    return newRequest[0];
+  } catch (error) {
+    throw error;
+  }
+};
+
+export default createRequest;
