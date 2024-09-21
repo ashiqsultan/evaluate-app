@@ -19,9 +19,11 @@ CREATE TABLE IF NOT EXISTS "request" (
 	"created_at" timestamp DEFAULT now(),
 	"updated_at" timestamp DEFAULT now(),
 	"verb" varchar(10) NOT NULL,
-	"endpoint" varchar(255) NOT NULL,
-	"headers" text,
-	"body" text
+	"url" varchar(255) NOT NULL,
+	"headers" json,
+	"path_params" json,
+	"query_params" json,
+	"body" json
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "response" (

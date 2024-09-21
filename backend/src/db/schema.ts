@@ -6,7 +6,7 @@ import {
   text,
   boolean,
   integer,
-  index,
+  json,
 } from 'drizzle-orm/pg-core';
 
 // Request table
@@ -15,9 +15,11 @@ export const request = pgTable('request', {
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at').defaultNow(),
   verb: varchar('verb', { length: 10 }).notNull(),
-  endpoint: varchar('endpoint', { length: 255 }).notNull(),
-  headers: text('headers'),
-  body: text('body'),
+  url: varchar('url', { length: 255 }).notNull(),
+  headers: json('headers'),
+  pathParams: json('path_params'),
+  queryParams: json('query_params'),
+  body: json('body'),
 });
 
 // Question table

@@ -1,5 +1,5 @@
 {
-  "id": "bc2c355a-b482-4d32-9ddc-73dee06608c0",
+  "id": "20c06c67-6bcb-4eb7-b443-33fab0fc70c3",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -149,21 +149,33 @@
           "primaryKey": false,
           "notNull": true
         },
-        "endpoint": {
-          "name": "endpoint",
+        "url": {
+          "name": "url",
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": true
         },
         "headers": {
           "name": "headers",
-          "type": "text",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "path_params": {
+          "name": "path_params",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "query_params": {
+          "name": "query_params",
+          "type": "json",
           "primaryKey": false,
           "notNull": false
         },
         "body": {
           "name": "body",
-          "type": "text",
+          "type": "json",
           "primaryKey": false,
           "notNull": false
         }
