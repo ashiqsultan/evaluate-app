@@ -5,24 +5,29 @@ import createRequest from '../../service/request/create';
 /**
  * Function to check if a value is a valid JSON object
  */
-const isValidJson = (value: any) => {
+const isValidJson = (value: any): boolean => {
   if (typeof value === 'object' && value !== null) {
     try {
       JSON.stringify(value);
-      console.log('JSON is valid');
       return true;
     } catch {
-      console.log('JSON is INvalid catch');
       return false;
     }
   }
-  console.log('JSON is INvalid catch not object');
   return false;
+};
+
+const send400Response = (res: Response, message: string): void => {
+  const response: IAppRes = {
+    data: message,
+    isError: true,
+  };
+  res.status(400).send(response);
 };
 
 export default async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const reqdata = {
+    const reqdata: any = {
       verb: req.body.verb || null,
       url: req.body.url || null,
       headers: req.body.headers || null,
@@ -31,55 +36,21 @@ export default async (req: Request, res: Response, next: NextFunction) => {
       queryParams: req.body.queryParams || null,
     };
 
-    // validate request body
+    // Validate request body
     if (!reqdata.verb || !reqdata.url) {
-      const response: IAppRes = {
-        data: "'verb' and 'url' are required",
-        isError: false,
-      };
-      res.status(400).send(response);
+      send400Response(res, "'verb' and 'url' are required");
       return;
     }
 
-    // Validate headers if provided
-    if (reqdata.headers && !isValidJson(reqdata.headers)) {
-      const response: IAppRes = {
-        data: 'Invalid JSON format in headers',
-        isError: true,
-      };
-      res.status(400).send(response);
-      return;
+    // Validate JSON format for different fields
+    const jsonFields = ['headers', 'body', 'pathParams', 'queryParams'];
+    for (const field of jsonFields) {
+      if (reqdata[field] && !isValidJson(reqdata[field])) {
+        send400Response(res, `Invalid JSON format in ${field}`);
+        return;
+      }
     }
 
-    // Validate body if provided
-    if (reqdata.body && !isValidJson(reqdata.body)) {
-      const response: IAppRes = {
-        data: 'Invalid JSON format in body',
-        isError: true,
-      };
-      res.status(400).send(response);
-      return;
-    }
-
-    // Validate pathParams if provided
-    if (reqdata.pathParams && !isValidJson(reqdata.pathParams)) {
-      const response: IAppRes = {
-        data: 'Invalid JSON format in pathParams',
-        isError: true,
-      };
-      res.status(400).send(response);
-      return;
-    }
-
-    // Validate queryParams if provided
-    if (reqdata.queryParams && !isValidJson(reqdata.queryParams)) {
-      const response: IAppRes = {
-        data: 'Invalid JSON format in queryParams',
-        isError: true,
-      };
-      res.status(400).send(response);
-      return;
-    }
     const createOperation = await createRequest(reqdata);
     const response: IAppRes = { data: createOperation, isError: false };
     res.send(response);
