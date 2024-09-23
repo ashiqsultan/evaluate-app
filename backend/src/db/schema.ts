@@ -14,6 +14,8 @@ export const request = pgTable('request', {
   id: uuid('id').defaultRandom().primaryKey(),
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at').defaultNow(),
+  name: varchar('name', { length: 120 }).notNull().default('New Request'),
+  // TODO: HTTP verb should be an enum
   verb: varchar('verb', { length: 10 }).notNull(),
   url: varchar('url', { length: 255 }).notNull(),
   headers: json('headers'),
@@ -27,11 +29,11 @@ export const question = pgTable('question', {
   id: uuid('id').defaultRandom().primaryKey(),
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at').defaultNow(),
-  requestId: uuid('request_id')
-    .notNull()
-    .references(() => request.id),
+  requestId: uuid('request_id').references(() => request.id),
   questionText: text('question_text').notNull(),
 });
+
+export type Question = typeof question.$inferSelect;
 
 // Condition table
 export const condition = pgTable('condition', {

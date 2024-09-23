@@ -8,6 +8,13 @@
       "when": 1726927829306,
       "tag": "0000_fluffy_dust",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1727109157649,
+      "tag": "0001_dark_mauler",
+      "breakpoints": true
     }
   ]
 }
