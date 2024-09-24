@@ -45,6 +45,7 @@ export const condition = pgTable('condition', {
     .references(() => question.id),
   conditionText: text('condition_text').notNull(),
 });
+export type Condition = typeof condition.$inferSelect;
 
 // Response table
 export const response = pgTable('response', {
