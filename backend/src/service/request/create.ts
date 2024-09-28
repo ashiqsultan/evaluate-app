@@ -6,10 +6,11 @@ type NewRequest = typeof request.$inferInsert;
 // Create a new request
 const createRequest = async (data: NewRequest): Promise<NewRequest> => {
   try {
-    const { verb, url, headers, body, pathParams, queryParams } = data;
+    const { name, verb, url, headers, body, pathParams, queryParams } = data;
     const newRequest = await db
       .insert(request)
       .values({
+        name,
         verb,
         url,
         headers,

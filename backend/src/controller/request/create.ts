@@ -28,6 +28,7 @@ const send400Response = (res: Response, message: string): void => {
 export default async (req: Request, res: Response, next: NextFunction) => {
   try {
     const reqdata: any = {
+      name: req.body.name || null,
       verb: req.body.verb || null,
       url: req.body.url || null,
       headers: req.body.headers || null,
