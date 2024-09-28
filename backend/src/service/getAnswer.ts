@@ -5,14 +5,15 @@ import replaceQuestionPlaceholder from '../helpers/replaceQuestionPlaceholder';
 const getAnswer = async (
   question: Question,
   request: RequestSchema
-): Promise<any> => {
+): Promise<string> => {
   try {
     const newRequest = replaceQuestionPlaceholder(
       request,
       question.questionText
     );
     const response = await apiService(newRequest);
-    return response;
+    const stringifiedResponse = JSON.stringify(response);
+    return stringifiedResponse;
   } catch (error) {
     throw error;
   }

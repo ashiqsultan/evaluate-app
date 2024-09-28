@@ -58,6 +58,8 @@ export const response = pgTable('response', {
   responseBody: text('response_body').notNull(),
   statusCode: integer('status_code').notNull(),
 });
+export type ResponseInsertSchema = typeof response.$inferInsert;
+export type ResponseSchema = typeof response.$inferSelect;
 
 // TestResult table
 export const testResult = pgTable('test_result', {

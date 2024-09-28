@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import IAppRes from '../types/IAppRes';
 import getOneQuestion from '../service/question/getOne';
 import getAnswer from '../service/getAnswer';
+import createResponse from '../service/response/create';
 
 const send400Response = (res: Response, message: string): void => {
   const response: IAppRes = {
@@ -31,13 +32,21 @@ const askQuestion = async (req: Request, res: Response, next: NextFunction) => {
     }
     const request = questionData.request;
     const answer = await getAnswer(questionData.question, request);
-    // TODO: Store answer in DB
     if (!answer) {
-      send400Response(res, 'No answer found');
+      send400Response(res, 'Error in getting answer');
       return;
     }
-    // TODO: Call request and get answer
-    const response: IAppRes = { data: questionData, isError: false };
+    // Save Response
+    const createdResponse = await createResponse({
+      questionId: questionId,
+      responseBody: answer,
+      statusCode: 200,
+    });
+    if (!createdResponse) {
+      send400Response(res, 'Error in creating response');
+      return;
+    }
+    const response: IAppRes = { data: createdResponse, isError: false };
     res.send(response);
     return;
   } catch (error) {
