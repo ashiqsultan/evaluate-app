@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import IAppRes from '../types/IAppRes';
 import getOneQuestion from '../service/question/getOne';
+import getAnswer from '../service/getAnswer';
 
 const send400Response = (res: Response, message: string): void => {
   const response: IAppRes = {
@@ -19,18 +20,24 @@ const askQuestion = async (req: Request, res: Response, next: NextFunction) => {
       return;
     }
     // get question
-    const question = await getOneQuestion(questionId);
-    if (!question) {
+    const questionData = await getOneQuestion(questionId);
+    if (!questionData) {
       send400Response(res, 'question not found');
+      return;
     }
-    if (!question.request?.id) {
+    if (!questionData.request?.id) {
       send400Response(res, 'No request associated with this question.');
+      return;
     }
-    // Main
-    const request = question.request;
-    // Get Answer
+    const request = questionData.request;
+    const answer = await getAnswer(questionData.question, request);
+    // TODO: Store answer in DB
+    if (!answer) {
+      send400Response(res, 'No answer found');
+      return;
+    }
     // TODO: Call request and get answer
-    const response: IAppRes = { data: question, isError: false };
+    const response: IAppRes = { data: questionData, isError: false };
     res.send(response);
     return;
   } catch (error) {
