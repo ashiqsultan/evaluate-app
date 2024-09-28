@@ -21,6 +21,7 @@ export const request = pgTable('request', {
   body: json('body').$type<Record<string, string>>(),
 });
 
+export type RequestInsertSchema = typeof request.$inferInsert;
 export type RequestSchema = typeof request.$inferSelect;
 
 // Question table

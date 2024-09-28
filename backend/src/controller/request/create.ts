@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import IAppRes from '../../types/IAppRes';
 import createRequest from '../../service/request/create';
+import { RequestInsertSchema } from '../../db/schema';
 
 /**
  * Function to check if a value is a valid JSON object
@@ -27,7 +28,7 @@ const send400Response = (res: Response, message: string): void => {
 
 export default async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const reqdata: any = {
+    const reqdata: RequestInsertSchema = {
       name: req.body.name || null,
       verb: req.body.verb || null,
       url: req.body.url || null,
@@ -44,8 +45,9 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     }
 
     // Validate JSON format for different fields
-    const jsonFields = ['headers', 'body', 'pathParams', 'queryParams'];
+    const jsonFields = ['headers', 'body', 'queryParams'];
     for (const field of jsonFields) {
+      // @ts-ignore
       if (reqdata[field] && !isValidJson(reqdata[field])) {
         send400Response(res, `Invalid JSON format in ${field}`);
         return;
