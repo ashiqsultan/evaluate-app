@@ -12,17 +12,16 @@ import {
 // Request table
 export const request = pgTable('request', {
   id: uuid('id').defaultRandom().primaryKey(),
-  createdAt: timestamp('created_at').defaultNow(),
-  updatedAt: timestamp('updated_at').defaultNow(),
   name: varchar('name', { length: 120 }).notNull().default('New Request'),
-  // TODO: HTTP verb should be an enum
   verb: varchar('verb', { length: 10 }).notNull(),
   url: varchar('url', { length: 255 }).notNull(),
-  headers: json('headers'),
-  pathParams: json('path_params'),
-  queryParams: json('query_params'),
-  body: json('body'),
+  headers: json('headers').$type<Record<string, string>>(),
+  pathParams: json('path_params').$type<Record<string, string>>(),
+  queryParams: json('query_params').$type<Record<string, string>>(),
+  body: json('body').$type<Record<string, string>>(),
 });
+
+export type RequestSchema = typeof request.$inferSelect;
 
 // Question table
 export const question = pgTable('question', {
