@@ -9,13 +9,16 @@ const testQuestion = async (questionId: string) => {
         questionId: question.id,
         questionText: question.questionText,
         responseBody: response.responseBody,
-        conditions: sql<{ id: string; conditionText: string }[]>`
-        json_agg(
-          json_build_object(
-            'id', ${condition.id},
-            'conditionText', ${condition.conditionText}
+        conditions: sql<{ id: string; conditionText: string }[] | null>`
+        CASE
+          WHEN COUNT(${condition.id}) = 0 THEN NULL
+          ELSE json_agg(
+            json_build_object(
+              'id', ${condition.id},
+              'conditionText', ${condition.conditionText}
+            )
           )
-        )
+        END
       `.as('conditions'),
       })
       .from(question)
