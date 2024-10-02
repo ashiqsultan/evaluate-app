@@ -2,7 +2,7 @@ import { eq, sql } from 'drizzle-orm';
 import db from '../db';
 import { question, condition, response } from '../db/schema';
 
-const testQuestion = async (questionId: string) => {
+const getTestData = async (questionId: string) => {
   try {
     const result = await db
       .select({
@@ -44,4 +44,4 @@ const testQuestion = async (questionId: string) => {
   }
 };
 
-export default testQuestion;
+export default getTestData;
