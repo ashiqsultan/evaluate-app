@@ -1,6 +1,8 @@
 import validateTestData from '../helpers/validateTestData';
 import getTestData from './getTestData';
-const runTest = async (questionId: string) => {
+import evaluationApi from '../util/evaluationApi';
+
+const runEvaluationByQuestionId = async (questionId: string) => {
   try {
     const testData = await getTestData(questionId);
     const errorsArr = validateTestData(testData);
@@ -8,16 +10,21 @@ const runTest = async (questionId: string) => {
       throw {
         id: 'invalid-test-data',
         status: 400,
-        message: 'Invalid test data',
-        errors: errorsArr.join(', '),
+        message: `Invalid test data: ${errorsArr.join(', ')}`,
       };
     } else {
-      // TODO: Call Python test api to run the test
-      return testData;
+      const toEvalPromises = [];
+      for (const conditionItem of testData.conditions) {
+        toEvalPromises.push(
+          evaluationApi(testData.responseBody, conditionItem.conditionText)
+        );
+      }
+      const evaluationRes = await Promise.all(toEvalPromises);
+      return evaluationRes;
     }
   } catch (error) {
     throw error;
   }
 };
 
-export default runTest;
+export default runEvaluationByQuestionId;
