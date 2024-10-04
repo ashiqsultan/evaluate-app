@@ -6,5 +6,5 @@ export interface ITestData {
   questionId: string;
   questionText: string;
   responseBody: string;
-  conditions?: IConditionItem[] | null;
+  conditions: IConditionItem[] | null;
 }

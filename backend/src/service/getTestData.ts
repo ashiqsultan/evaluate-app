@@ -1,15 +1,16 @@
 import { eq, sql } from 'drizzle-orm';
 import db from '../db';
 import { question, condition, response } from '../db/schema';
+import { ITestData, IConditionItem } from '../types/ITestData';
 
-const getTestData = async (questionId: string) => {
+const getTestData = async (questionId: string): Promise<ITestData> => {
   try {
     const result = await db
       .select({
         questionId: question.id,
         questionText: question.questionText,
         responseBody: response.responseBody,
-        conditions: sql<{ id: string; conditionText: string }[] | null>`
+        conditions: sql<IConditionItem[] | null>`
         CASE
           WHEN COUNT(${condition.id}) = 0 THEN NULL
           ELSE json_agg(
@@ -27,7 +28,6 @@ const getTestData = async (questionId: string) => {
       .where(eq(question.id, questionId))
       .groupBy(question.id, question.questionText, response.responseBody)
       .execute();
-
     if (Array.isArray(result) && result.length > 0) {
       const questionDetails = {
         questionId: result[0].questionId || '',
@@ -37,7 +37,12 @@ const getTestData = async (questionId: string) => {
       };
       return questionDetails;
     }
-    return {};
+    return {
+      questionId: '',
+      questionText: '',
+      responseBody: '',
+      conditions: [],
+    };
   } catch (error) {
     console.error(error);
     throw error;
