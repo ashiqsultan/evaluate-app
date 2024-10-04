@@ -12,7 +12,7 @@ function validateTestData(data: ITestData): string[] {
     let isInvalidCondition = false;
     // Check for missing or null conditionText or id
     for (const condition of data.conditions) {
-      console.log('condition', condition);
+      // console.log('condition', condition);
       if (!condition.conditionText || !condition.id) {
         isInvalidCondition = true;
         break;

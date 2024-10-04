@@ -20,3 +20,6 @@ To view database in drizzle studio run the below command
 ```
 yarn drizzle-kit studio --port 3000 --verbose
 ```
+
+## Terminologies
+Evaluator, Evaluate Question, Evaluate Answer, or any similar term related to "evaluation" refers to the process of testing whether an answer meets all the conditions specified by the user. This typically involves making a call to an external Python API service with the provided answer and its respective conditions. The result of this process is referred to as the "evaluation result."    
