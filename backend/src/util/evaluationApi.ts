@@ -1,11 +1,9 @@
 import axios from 'axios';
+import { IConditionEvaluateAPIRes } from '../types/IEvaluateAPIRes';
 const evaluationApi = async (
   answer: string,
   condition: string
-): Promise<{
-  result: boolean;
-  reason: string;
-}> => {
+): Promise<IConditionEvaluateAPIRes> => {
   try {
     console.log('checking condition', condition);
     const response = await axios.post(

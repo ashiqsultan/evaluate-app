@@ -1,8 +1,15 @@
 import validateTestData from '../helpers/validateTestData';
 import getTestData from './getTestData';
 import evaluationApi from '../util/evaluationApi';
+import { IConditionEvaluateAPIRes } from '../types/IEvaluateAPIRes';
 
-const runEvaluationByQuestionId = async (questionId: string) => {
+/**
+ * Gets the response and condition for the given questionId and evaluates the answer for each condition.
+ * Validates the data before evaluating. Throws an error if any data is missing like empty answer or empty condition.
+ */
+const evaluateQuestion = async (
+  questionId: string
+): Promise<IConditionEvaluateAPIRes[]> => {
   try {
     const testData = await getTestData(questionId);
     const errorsArr = validateTestData(testData);
@@ -10,7 +17,8 @@ const runEvaluationByQuestionId = async (questionId: string) => {
       throw {
         id: 'invalid-test-data',
         status: 400,
-        message: `Invalid test data: ${errorsArr.join(', ')}`,
+        message: `Cannot Evaluate due to incomplete data, please check the missing data for the question. 
+        Errors: ${errorsArr.join(', ')}`,
       };
     } else {
       const toEvalPromises = [];
@@ -23,8 +31,9 @@ const runEvaluationByQuestionId = async (questionId: string) => {
       return evaluationRes;
     }
   } catch (error) {
+    console.error(error);
     throw error;
   }
 };
 
-export default runEvaluationByQuestionId;
+export default evaluateQuestion;
