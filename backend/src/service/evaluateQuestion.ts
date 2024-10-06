@@ -1,6 +1,6 @@
 import validateTestData from '../helpers/validateTestData';
 import getTestData from './getTestData';
-import evaluationApi from '../util/evaluationApi';
+import conditionalEvaluation from '../evaluationAPI/conditional';
 import { IConditionEvaluateAPIRes } from '../types/IEvaluateAPIRes';
 
 /**
@@ -24,7 +24,10 @@ const evaluateQuestion = async (
       const toEvalPromises = [];
       for (const conditionItem of testData.conditions) {
         toEvalPromises.push(
-          evaluationApi(testData.responseBody, conditionItem.conditionText)
+          conditionalEvaluation(
+            testData.responseBody,
+            conditionItem.conditionText
+          )
         );
       }
       const evaluationRes = await Promise.all(toEvalPromises);

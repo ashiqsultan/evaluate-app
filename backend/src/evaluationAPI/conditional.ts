@@ -1,13 +1,12 @@
 import axios from 'axios';
 import { IConditionEvaluateAPIRes } from '../types/IEvaluateAPIRes';
-const evaluationApi = async (
+const conditionalEvaluation = async (
   answer: string,
   condition: string
 ): Promise<IConditionEvaluateAPIRes> => {
   try {
-    console.log('checking condition', condition);
     const response = await axios.post(
-      'http://localhost:8000/verify/conditional',
+      'http://localhost:8000/evaluate/condition',
       {
         answer,
         condition,
@@ -19,12 +18,11 @@ const evaluationApi = async (
       }
     );
     if (response.status !== 200) {
-      throw new Error('Error in Evaluation API Service');
+      throw new Error('Error in Conditional Evaluation API Service');
     }
     if (!response.data) {
-      throw new Error('Error in Evaluation API Service');
+      throw new Error('Error in Conditional Evaluation API Service');
     }
-    console.log('checking condition done', condition);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -32,4 +30,4 @@ const evaluationApi = async (
   }
 };
 
-export default evaluationApi;
+export default conditionalEvaluation;
