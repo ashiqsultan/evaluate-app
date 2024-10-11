@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import IAppRes from '../../types/IAppRes';
 import createRequest from '../../service/request/create';
+import updateRequest from '../../service/request/update';
 import { RequestInsertSchema } from '../../db/schema';
 
 /**
@@ -24,6 +25,7 @@ const send400Response = (res: Response, message: string): void => {
     isError: true,
   };
   res.status(400).send(response);
+  return;
 };
 
 export default async (req: Request, res: Response, next: NextFunction) => {
@@ -54,9 +56,19 @@ export default async (req: Request, res: Response, next: NextFunction) => {
       }
     }
 
-    const createOperation = await createRequest(reqdata);
-    const response: IAppRes = { data: createOperation, isError: false };
-    res.send(response);
+    const id = req.body.id;
+
+    if (id) {
+      const updateOperation = await updateRequest(id, reqdata);
+      const response: IAppRes = { data: updateOperation, isError: false };
+      res.send(response);
+      return;
+    } else {
+      const createOperation = await createRequest(reqdata);
+      const response: IAppRes = { data: createOperation, isError: false };
+      res.send(response);
+      return;
+    }
   } catch (error) {
     next(error);
   }
