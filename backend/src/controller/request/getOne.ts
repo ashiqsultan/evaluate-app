@@ -22,15 +22,6 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     const response: IAppRes = { data: getOneOperation, isError: false };
     res.send(response);
   } catch (error: any) {
-    if (error.name === 'NotFound') {
-      sendErrRes(res, error.message, 404);
-      return;
-    }
-    if (error.name === 'BadRequest') {
-      sendErrRes(res, error.message, 400);
-      return;
-    }
-
     next(error);
   }
 };
