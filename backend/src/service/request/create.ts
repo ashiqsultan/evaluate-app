@@ -19,8 +19,6 @@ const createRequest = async (data: NewRequest): Promise<NewRequest> => {
         queryParams,
       })
       .returning();
-    console.log('newRequest');
-    console.log(newRequest);
     return newRequest[0];
   } catch (error) {
     throw error;
