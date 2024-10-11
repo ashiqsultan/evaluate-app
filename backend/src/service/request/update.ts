@@ -26,8 +26,10 @@ const updateRequest = async (
       .where(eq(request.id, id))
       .returning();
 
-    if (!updatedRequest.length) {
-      throw new Error('Error in updatedRequest. sql returned null');
+    if (!updatedRequest?.[0]) {
+      throw new Error(
+        'Error in updatedRequest. update request returned empty array'
+      );
     }
 
     return updatedRequest[0];
