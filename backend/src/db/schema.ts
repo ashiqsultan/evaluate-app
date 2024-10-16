@@ -45,6 +45,7 @@ export const condition = pgTable('condition', {
     .references(() => question.id),
   conditionText: text('condition_text').notNull(),
 });
+export type ConditionInsertSchema = typeof condition.$inferInsert;
 export type Condition = typeof condition.$inferSelect;
 
 // Response table

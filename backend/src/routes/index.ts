@@ -20,6 +20,7 @@ routes.post('/question', createOrUpdateQuestion);
 routes.put('/question', createOrUpdateQuestion);
 routes.get('/question/:id', getOneQuestion);
 routes.post('/condition', createCondition);
+routes.put('/condition', createCondition);
 routes.get('/condition/question/:questionId', getConditionsByQuestionId);
 routes.get('/response/question/:questionId', getResponsesByQuestionId);
 
