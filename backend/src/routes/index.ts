@@ -5,7 +5,8 @@ import getOneReq from '../controller/request/getOne';
 import createOrUpdateQuestion from '../controller/question/createOrUpdate';
 import getOneQuestion from '../controller/question/getOne';
 import createCondition from '../controller/condition/create';
-import getManyByQuestionId from '../controller/condition/getManyByQuestionId';
+import getConditionsByQuestionId from '../controller/condition/getManyByQuestionId';
+import getResponsesByQuestionId from '../controller/response/getManyByQuestionId';
 import askQuestion from '../controller/askQuestion';
 
 let routes = Router();
@@ -19,7 +20,8 @@ routes.post('/question', createOrUpdateQuestion);
 routes.put('/question', createOrUpdateQuestion);
 routes.get('/question/:id', getOneQuestion);
 routes.post('/condition', createCondition);
-routes.get('/condition/question/:questionId', getManyByQuestionId);
+routes.get('/condition/question/:questionId', getConditionsByQuestionId);
+routes.get('/response/question/:questionId', getResponsesByQuestionId);
 
 routes.get('/ask-question/:questionId', askQuestion);
 // routes.post('/test-question/:questionId', pong);
