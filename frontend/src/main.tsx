@@ -1,28 +1,28 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import Home from './pages/Home';
-import './index.css';
+import Home from './routes/Home';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import App from './App';
-import Root from './routes/root';
+import Question from './routes/Question';
 import ErrorPage from './error-page';
 import TanStackProvider from './providers/TanStackProvider';
+import NotFound from './routes/NotFound';
+import './index.css';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Root />,
+    element: <Home />,
     errorElement: <ErrorPage />,
-    children: [
-      {
-        path: '/home',
-        element: <Home />,
-      },
-    ],
   },
   {
-    path: '/app',
-    element: <App />,
+    path: '/Question',
+    element: <Question />,
+    errorElement: <ErrorPage />,
+  },
+  // 404 page
+  {
+    path: '/*',
+    element: <NotFound />,
   },
 ]);
 
