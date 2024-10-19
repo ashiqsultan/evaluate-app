@@ -12,6 +12,9 @@
   #root {
     @apply h-full;
   }
+  :root {
+    --radius: 0.5rem;
+  }
 }
 
 @layer utilities {
