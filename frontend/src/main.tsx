@@ -1,30 +1,9 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import Home from './routes/Home';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Question from './routes/Question';
-import ErrorPage from './error-page';
+import { RouterProvider } from 'react-router-dom';
 import TanStackProvider from './providers/TanStackProvider';
-import NotFound from './routes/NotFound';
 import './index.css';
-
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Home />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: '/Question',
-    element: <Question />,
-    errorElement: <ErrorPage />,
-  },
-  // 404 page
-  {
-    path: '/*',
-    element: <NotFound />,
-  },
-]);
+import router from './router';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
