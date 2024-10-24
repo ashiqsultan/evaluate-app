@@ -3,6 +3,7 @@ import Home from './routes/Home';
 import Question from './routes/Question';
 import ErrorPage from './error-page';
 import NotFound from './routes/NotFound';
+import QuestionCreate from './components/QuestionCreate';
 
 const router = createBrowserRouter([
   {
@@ -13,6 +14,11 @@ const router = createBrowserRouter([
   {
     path: '/Question',
     element: <Question />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/question/create',
+    element: <QuestionCreate />,
     errorElement: <ErrorPage />,
   },
   // 404 page
