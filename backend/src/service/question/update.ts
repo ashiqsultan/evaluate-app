@@ -21,6 +21,7 @@ const updateQuestion = async (
       .set({
         requestId: data.requestId,
         questionText: data.questionText,
+        updatedAt: new Date(),
       })
       .where(eq(question.id, id))
       .returning({
